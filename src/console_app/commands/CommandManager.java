@@ -1,2 +1,4 @@
-package console_app.commands;public class CommandManager {
+package console_app.commands;
+
+public class CommandManager {
 }

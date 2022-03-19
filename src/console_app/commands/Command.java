@@ -1,4 +1,7 @@
 package console_app.commands;
 
-public class Command {
+import java.util.Queue;
+
+public interface Command {
+    void execute();
 }

@@ -1,2 +1,5 @@
-package console_app.collection;public interface CollectionManager {
+package console_app.collection;
+
+public interface CollectionManager {
+
 }
