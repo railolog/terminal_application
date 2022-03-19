@@ -1,6 +1,6 @@
-package project_5.core;
+package console_app.core;
 
-import project_5.exceptions.ValueLimitExceedException;
+import console_app.exceptions.ValueLimitExceedException;
 
 public class Human {
     private Double height;

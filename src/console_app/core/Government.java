@@ -1,4 +1,4 @@
-package project_5.core;
+package console_app.core;
 
 public enum Government {
     KLEPTOCRACY,

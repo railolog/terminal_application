@@ -1,4 +1,4 @@
-package project_5;
+package console_app;
 
 public class Main {
     public static void main(String[] args) {

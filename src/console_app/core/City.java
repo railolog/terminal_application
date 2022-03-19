@@ -1,6 +1,6 @@
-package project_5.core;
+package console_app.core;
 
-import project_5.exceptions.EmptyNameException;
+import console_app.exceptions.EmptyNameException;
 
 public class City {
     private static long idCounter = 1;
