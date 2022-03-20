@@ -20,10 +20,22 @@ public class CommandManager {
     }
 
     public void consoleMode(){
+        isRunning = true;
+        while (isRunning){
+            CommandWrapper cmdPair = ioManager.readCommand();
 
+        }
     }
 
     public void addCommand(String commandName, Command command){
         commandMap.put(commandName, command);
+    }
+
+    public void execute(String commandName, String arg){
+        Command command = commandMap.get(commandName);
+        if (command == null){
+            throw new IllegalStateException("no such command as: " + commandName);
+        }
+        command.execute(arg);
     }
 }

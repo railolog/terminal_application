@@ -1,7 +1,7 @@
 package console_app.io;
 
-public interface InputOutputManager {
-    public String getCommand();
+import console_app.commands.CommandWrapper;
 
-    public String getArg();
+public interface InputOutputManager {
+    public CommandWrapper readCommand();
 }
