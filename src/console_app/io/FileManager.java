@@ -1,2 +1,4 @@
-package console_app.io;public class FileManager {
+package console_app.io;
+
+public class FileManager {
 }

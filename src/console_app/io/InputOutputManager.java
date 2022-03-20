@@ -1,2 +1,7 @@
-package console_app.io;public class InputOutputManager {
+package console_app.io;
+
+public interface InputOutputManager {
+    public String getCommand();
+
+    public String getArg();
 }
