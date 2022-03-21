@@ -26,4 +26,11 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
         return new CommandWrapper(cmd);
     }
+
+    @Override
+    public void println(String line) {
+        System.out.println(line);
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package console_app.core;
 
-import console_app.exceptions.EmptyNameException;
+import console_app.exceptions.EmptyFieldException;
 
 public class City {
     private static long idCounter = 1;
@@ -20,9 +20,24 @@ public class City {
     public City(String name,
                 Coordinates coordinates,
                 Double area,
-                Integer population){
-        if(name.trim().isEmpty()){
-            throw new EmptyNameException("Имя не может быть пустым");
-        }
+                Integer population,
+                Long metersAboveSeaLevel,
+                boolean capital,
+                int telephoneCode,
+                Government government,
+                Human governor){
+        this.name = name;
+        this.coordinates = coordinates;
+        this.area = area;
+        this.population = population;
+        this.metersAboveSeaLevel = metersAboveSeaLevel;
+        this.capital = capital;
+        this.telephoneCode = telephoneCode;
+        this.government = government;
+        this.governor = governor;
+    }
+
+    public Long getId(){
+        return id;
     }
 }

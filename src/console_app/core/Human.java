@@ -15,7 +15,7 @@ public class Human {
 
     public void setHeight(Double height){
         if(height <= 0){
-            throw new ValueLimitExceedException("Значение поля должно быть больше 0");
+            throw new ValueLimitExceedException("Значение поля height должно быть больше 0");
         }
     }
 }
