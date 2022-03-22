@@ -1,6 +1,10 @@
 package console_app.io;
 
 import console_app.commands.CommandWrapper;
+import console_app.core.City;
+import console_app.core.Coordinates;
+import console_app.core.Government;
+import console_app.core.Human;
 
 import java.util.Scanner;
 
@@ -32,5 +36,18 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         System.out.println(line);
     }
 
+    @Override
+    public City readCity() {
+        String name = readName();
+        Coordinates coords = readCoordinates();
+        Double area = readAre();
+        Integer population = readPopulation();
+        Long meters = readMetersAboveSeaLevel();
+        boolean capital = readCapital();
+        int telephoneCode = readTelephoneCode();
+        Government gov = readGovernment();
+        Human governor = readGovernor();
 
+        return new City(name, coords, area, population, meters, capital, telephoneCode, gov, governor);
+    }
 }

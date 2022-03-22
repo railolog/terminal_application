@@ -40,4 +40,23 @@ public class City {
     public Long getId(){
         return id;
     }
+
+    public void setId(Long id){
+        this.id = id;
+    }
+
+    public String toString(){
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + "'" +
+                ", coordinate=" + coordinates +
+                ", creation_date=" + creationDate +
+                ", area=" + area +
+                ", population=" + population +
+                ", meters_above_sea_level=" + metersAboveSeaLevel +
+                ", is_capital=" + capital +
+                ", telephone_code=" + telephoneCode +
+                ", government=" + government +
+                ", governor=" + governor;
+    }
 }

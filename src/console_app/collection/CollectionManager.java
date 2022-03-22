@@ -9,4 +9,10 @@ public interface CollectionManager<T> {
     long createUniqueId();
 
     void showCollectionInfo();
+
+    void printElements();
+
+    void addElement();
+
+    void sort();
 }
