@@ -13,4 +13,9 @@ public class ShowCommand implements Command{
     public void execute(String arg) {
         collectionManager.printElements();
     }
+
+    @Override
+    public String toString(){
+        return "вывести все элементы коллекции";
+    }
 }

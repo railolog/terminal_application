@@ -8,5 +8,11 @@ public interface InputOutputManager {
 
     public void println(String line);
 
+    void print(String line);
+
+    void printErr(String e);
+
+    String readLine();
+
     City readCity();
 }

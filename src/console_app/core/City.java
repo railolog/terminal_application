@@ -2,7 +2,7 @@ package console_app.core;
 
 import console_app.exceptions.EmptyFieldException;
 
-public class City {
+public class City implements Comparable<City>{
     private static long idCounter = 1;
 
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
@@ -45,8 +45,13 @@ public class City {
         this.id = id;
     }
 
+    @Override
+    public int compareTo(City o) {
+        return population.compareTo(o.population);
+    }
+
     public String toString(){
-        return "Person{" +
+        return "City{" +
                 "id=" + id +
                 ", name='" + name + "'" +
                 ", coordinate=" + coordinates +

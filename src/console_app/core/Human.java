@@ -1,6 +1,6 @@
 package console_app.core;
 
-import console_app.exceptions.ValueLimitExceedException;
+import console_app.exceptions.HumanHeightException;
 
 public class Human {
     private Double height;
@@ -15,7 +15,7 @@ public class Human {
 
     public void setHeight(Double height){
         if(height <= 0){
-            throw new ValueLimitExceedException("Значение поля height должно быть больше 0");
+            throw new HumanHeightException("Значение поля height должно быть больше 0");
         }
     }
 }

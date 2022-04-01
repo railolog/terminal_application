@@ -1,6 +1,7 @@
 package console_app.collection;
 
 import console_app.core.City;
+import console_app.core.CityComparator;
 import console_app.io.InputOutputManager;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class CityCollectionManager implements CollectionManager{
 
     @Override
     public void sort() {
-        cityCollection.sort();
+        cityCollection.sort(new CityComparator());
     }
 
     @Override

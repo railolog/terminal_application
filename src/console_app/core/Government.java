@@ -1,7 +1,19 @@
 package console_app.core;
 
 public enum Government {
-    KLEPTOCRACY,
-    NOOCRACY,
-    OLIGARCHY;
+    KLEPTOCRACY ("Клептократия"),
+    NOOCRACY ("Ноократия"),
+    OLIGARCHY ("Олигархия");
+
+    private String title;
+
+    Government(String title){
+        this.title = title;
+    }
+
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }
