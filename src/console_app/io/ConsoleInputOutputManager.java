@@ -8,7 +8,6 @@ import console_app.core.Human;
 import console_app.exceptions.HumanException;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class ConsoleInputOutputManager implements InputOutputManager{
@@ -37,7 +36,8 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
     @Override
     public void println(String line) {
-        System.out.println(line);
+        print(line);
+        print("\n");
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
         if(name.length() == 0){
             printErr("поле не может быть пустым");
-            return readName();
+            return fileMode ? null : readName();
         }
         return name;
     }
@@ -89,7 +89,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
         if (xy.length != 2){
             printErr("введено неверное кол-во чисел, предполагаемое кол-во - 2");
-            return readCoordinates();
+            return fileMode ? null : readCoordinates();
         }
 
         try {
@@ -97,7 +97,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         }
         catch (NumberFormatException e){
             printErr("вероятно, введены не числа");
-            return readCoordinates();
+            return fileMode ? null : readCoordinates();
         }
     }
 
@@ -110,12 +110,12 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         }
         catch (NumberFormatException e){                // пустой ввод
             printErr("вероятно, введено не число");
-            return readArea();
+            return fileMode ? null : readArea();
         }
 
         if (area <= 0){
-            printErr("вы ввели значение меньше нуля");
-            return readArea();
+            printErr("вы ввели значение не больше нуля");
+            return fileMode ? null : readArea();
         }
         return area;
     }
@@ -130,32 +130,34 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         catch (NumberFormatException e){
             if (e.getMessage().equals("empty String")){
                 printErr("поле не может быть пустым");    // не работает с целыми числами
-                return readPopulation();
+                return fileMode ? null : readPopulation();
             }
             printErr("вероятно, введено не целое число");
-            return readPopulation();
+            return fileMode ? null : readPopulation();
         }
 
         if (pop <= 0){
             printErr("вы ввели значение меньше нуля");
-            return readPopulation();
+            return fileMode ? null : readPopulation();
         }
         return pop;
     }
 
     private Long readMetersAboveSeaLevel(){
-        print("Введите высоту на уровне моря(целое число): ");
+        print("Введите высоту над уровнем моря(целое число): ");
         long meters;
+        String s = readLine();
+
+        if (s.length() == 0){
+            return null;
+        }
 
         try{
-            meters = Integer.parseInt(readLine());
+            meters = Integer.parseInt(s);
         }
         catch (NumberFormatException e){
-            if (e.getMessage().equals("empty String")){    // не рабоает с интом
-                return null;
-            }
             printErr("введено не целое число");
-            return readMetersAboveSeaLevel();
+            return fileMode ? null : readMetersAboveSeaLevel();
         }
 
         return meters;
@@ -191,7 +193,12 @@ public class ConsoleInputOutputManager implements InputOutputManager{
             else {
                 printErr("введено не число");
             }
-            return readTelephoneCode();
+            return fileMode ? -1 : readTelephoneCode();
+        }
+
+        if (code > 100000 || code <= 0){
+            printErr("Введено значение не из промежутка [1; 100000]");
+            return fileMode ? -1 : readTelephoneCode();
         }
 
         return code;
@@ -200,28 +207,31 @@ public class ConsoleInputOutputManager implements InputOutputManager{
     private Government readGovernment(){
         Government[] governments = Government.values();
 
-        println("Введите тип правления или пропустите");
+        println("Введите тип правления или пропустите");     //пропуск не работает
         int a = 1, b = governments.length;
 
         for (int i = 0; i < b; i++){
             println(governments[i] + ": " + (i + 1));
         }
 
+        String s = readLine();
+
+        if (s.length() == 0){
+            return null;
+        }
+
         int input;
         try{
-            input = Integer.parseInt(readLine());
+            input = Integer.parseInt(s);
         }
         catch (NumberFormatException e){
-            if (e.getMessage().equals("empty String")){
-                return null;
-            }
             printErr("Введно не целое число");
-            return readGovernment();
+            return fileMode ? null : readGovernment();
         }
 
         if (input > b || input < a){
             printErr("Введено число не из промежутка");
-            return readGovernment();
+            return fileMode ? null : readGovernment();
         }
 
         return governments[input - 1];
@@ -230,13 +240,18 @@ public class ConsoleInputOutputManager implements InputOutputManager{
     private Human readGovernor(){
         print("Введите рост правителя: ");
         double height;
+        String s = readLine();
+
+        if (s.length() == 0){
+            return null;
+        }
 
         try {
-            height = Double.parseDouble(readLine());
+            height = Double.parseDouble(s);
         }
         catch (NumberFormatException e){
             printErr("Введено не вещественное число");
-            return readGovernor();
+            return fileMode ? null : readGovernor();
         }
 
         try {
@@ -244,7 +259,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         }
         catch (HumanException e){
             printErr(e.getMessage());
-            return readGovernor();
+            return fileMode ? null : readGovernor();
         }
     }
 }

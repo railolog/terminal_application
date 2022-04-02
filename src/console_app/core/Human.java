@@ -17,5 +17,11 @@ public class Human {
         if(height <= 0){
             throw new HumanHeightException("Значение поля height должно быть больше 0");
         }
+        this.height = height;
+    }
+
+    @Override
+    public String toString() {
+        return "Human{height=" + height + "}";
     }
 }

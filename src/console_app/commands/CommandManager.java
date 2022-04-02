@@ -34,7 +34,12 @@ public class CommandManager {
         isRunning = true;
         while (isRunning){
             CommandWrapper cmdPair = ioManager.readCommand();
-            execute(cmdPair.getCommand(), cmdPair.getArgument());
+            try {
+                execute(cmdPair.getCommand(), cmdPair.getArgument());
+            }
+            catch (IllegalStateException e){
+                ioManager.printErr(e.getMessage() + "\nСписок команд можно получить с помощью команды help");
+            }
         }
     }
 
@@ -42,7 +47,7 @@ public class CommandManager {
         commandMap.put(commandName, command);
     }
 
-    public void execute(String commandName, String arg){
+    public void execute(String commandName, String arg) throws IllegalStateException{
         Command command = commandMap.get(commandName);
         if (command == null){
             throw new IllegalStateException("no such command as: " + commandName);

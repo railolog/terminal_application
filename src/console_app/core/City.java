@@ -1,6 +1,9 @@
 package console_app.core;
 
+import console_app.exceptions.CityInteractionException;
 import console_app.exceptions.EmptyFieldException;
+
+import java.time.ZonedDateTime;
 
 public class City implements Comparable<City>{
     private static long idCounter = 1;
@@ -26,15 +29,16 @@ public class City implements Comparable<City>{
                 int telephoneCode,
                 Government government,
                 Human governor){
-        this.name = name;
-        this.coordinates = coordinates;
-        this.area = area;
-        this.population = population;
-        this.metersAboveSeaLevel = metersAboveSeaLevel;
-        this.capital = capital;
-        this.telephoneCode = telephoneCode;
-        this.government = government;
-        this.governor = governor;
+        creationDate = ZonedDateTime.now();
+        setName(name);
+        setCoordinates(coordinates);
+        setArea(area);
+        setPopulation(population);
+        setMetersAboveSeaLevel(metersAboveSeaLevel);
+        setCapital(capital);
+        setTelephoneCode(telephoneCode);
+        setGovernor(governor);
+        setGovernment(government);
     }
 
     public Long getId(){
@@ -45,11 +49,69 @@ public class City implements Comparable<City>{
         this.id = id;
     }
 
+    public void setName(String name){
+        if (name == null || name.trim().length() == 0){
+            throw new CityInteractionException("Поле name не может быть пустым или null");
+        }
+        this.name = name;
+    }
+
+    public void setCoordinates(Coordinates coords){
+        if (coords == null){
+            throw new CityInteractionException("Поле Coordinates не может быть null");
+        }
+        this.coordinates = coords;
+    }
+
+    public void setArea(Double area) {
+        if (area == null){
+            throw new CityInteractionException("Поле area не может быть null");
+        }
+        if (area <= 0){
+            throw new CityInteractionException("Поле area должно быть больше 0");
+        }
+        this.area = area;
+    }
+
+    public void setPopulation(Integer population) {
+        if (population == null){
+            throw new CityInteractionException("Поле population не может быть null");
+        }
+        if (population <= 0){
+            throw new CityInteractionException("Поле population должно быть больше 0");
+        }
+        this.population = population;
+    }
+
+    public void setMetersAboveSeaLevel(Long metersAboveSeaLevel) {
+        this.metersAboveSeaLevel = metersAboveSeaLevel;
+    }
+
+    public void setCapital(boolean capital) {
+        this.capital = capital;
+    }
+
+    public void setTelephoneCode(int telephoneCode) {
+        if (telephoneCode > 100000 || telephoneCode <= 0){
+            throw new CityInteractionException("Значение поля telephoneCode не из промежутка [1;100000]");
+        }
+        this.telephoneCode = telephoneCode;
+    }
+
+    public void setGovernment(Government government) {
+        this.government = government;
+    }
+
+    public void setGovernor(Human governor) {
+        this.governor = governor;
+    }
+
     @Override
     public int compareTo(City o) {
         return population.compareTo(o.population);
     }
 
+    @Override
     public String toString(){
         return "City{" +
                 "id=" + id +
@@ -62,6 +124,7 @@ public class City implements Comparable<City>{
                 ", is_capital=" + capital +
                 ", telephone_code=" + telephoneCode +
                 ", government=" + government +
-                ", governor=" + governor;
+                ", governor=" + governor +
+                "}";
     }
 }

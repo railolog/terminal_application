@@ -1,10 +1,7 @@
 package console_app;
 
 import console_app.collection.CityCollectionManager;
-import console_app.commands.AddCommand;
-import console_app.commands.CommandManager;
-import console_app.commands.InfoCommand;
-import console_app.commands.ShowCommand;
+import console_app.commands.*;
 import console_app.io.ConsoleInputOutputManager;
 import console_app.io.FileManager;
 import console_app.io.InputOutputManager;
@@ -16,16 +13,13 @@ public class Main {
         InputOutputManager ioManager = new ConsoleInputOutputManager(new Scanner(System.in));
         CityCollectionManager collectionManager = new CityCollectionManager(ioManager);
 
-        CommandManager commandManager = new CommandManager(
-                    ioManager,
-                    new FileManager()
-                );
-        commandManager.addCommand("info",
-                                  new InfoCommand(collectionManager));
-        commandManager.addCommand("add",
-                                  new AddCommand(collectionManager));
-        commandManager.addCommand("show",
-                                  new ShowCommand(collectionManager));
+        CommandManager commandManager = new CommandManager(ioManager, new FileManager());
+
+        commandManager.addCommand("info", new InfoCommand(collectionManager));
+        commandManager.addCommand("add", new AddCommand(collectionManager));
+        commandManager.addCommand("show", new ShowCommand(collectionManager));
+        commandManager.addCommand("update", new UpdateCommand(collectionManager));
+
         commandManager.consoleMode();
     }
 }

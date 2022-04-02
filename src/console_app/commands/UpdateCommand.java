@@ -2,20 +2,20 @@ package console_app.commands;
 
 import console_app.collection.CollectionManager;
 
-public class AddCommand implements Command{
+public class UpdateCommand implements Command{
     CollectionManager collectionManager;
 
-    public AddCommand(CollectionManager collectionManager){
+    public UpdateCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
     }
 
     @Override
     public void execute(String arg) {
-        collectionManager.addElement();
+        collectionManager.update(arg);
     }
 
     @Override
     public String toString() {
-        return "добавить новый элемент в коллекцию";
+        return "обновить значение элемента коллекции, id которого равен заданному";
     }
 }
