@@ -15,9 +15,16 @@ public class Main {
 
         CommandManager commandManager = new CommandManager(ioManager, new FileManager());
 
-        commandManager.addCommand("info", new InfoCommand(collectionManager));
         commandManager.addCommand("add", new AddCommand(collectionManager));
+        commandManager.addCommand("add_if_max", new AddIfMaxCommand(collectionManager));
+        commandManager.addCommand("clear", new ClearCommand(collectionManager));
+        commandManager.addCommand("filter_greater_than_meters_above_sea_level", new FilterGreaterThanSeaLevel(collectionManager));
+        commandManager.addCommand("info", new InfoCommand(collectionManager));
+        commandManager.addCommand("min_by_creation_date", new MinByCreationDateCommand(collectionManager));
+        commandManager.addCommand("remove_by_id", new RemoveByIdCommand(collectionManager));
+        commandManager.addCommand("reorder", new ReorderCommand(collectionManager));
         commandManager.addCommand("show", new ShowCommand(collectionManager));
+        commandManager.addCommand("shuffle", new ShuffleCommand(collectionManager));
         commandManager.addCommand("update", new UpdateCommand(collectionManager));
 
         commandManager.consoleMode();

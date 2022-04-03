@@ -6,12 +6,10 @@ import console_app.exceptions.EmptyFieldException;
 import java.time.ZonedDateTime;
 
 public class City implements Comparable<City>{
-    private static long idCounter = 1;
-
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
-    private java.time.ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+    private final ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
     private Double area; //Значение поля должно быть больше 0, Поле не может быть null
     private Integer population; //Значение поля должно быть больше 0, Поле не может быть null
     private Long metersAboveSeaLevel;
@@ -104,6 +102,14 @@ public class City implements Comparable<City>{
 
     public void setGovernor(Human governor) {
         this.governor = governor;
+    }
+
+    public ZonedDateTime getCreationDate(){
+        return creationDate;
+    }
+
+    public Long getMetersAboveSeaLevel(){
+        return metersAboveSeaLevel;
     }
 
     @Override

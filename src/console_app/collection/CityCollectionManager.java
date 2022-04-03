@@ -1,7 +1,8 @@
 package console_app.collection;
 
 import console_app.core.City;
-import console_app.core.CityComparator;
+import console_app.core.CityCreationDateComparator;
+import console_app.core.CityPopulationComparator;
 import console_app.exceptions.CityInteractionException;
 import console_app.exceptions.CityNotExistsException;
 import console_app.io.InputOutputManager;
@@ -108,7 +109,7 @@ public class CityCollectionManager implements CollectionManager{
 
     @Override
     public void sort() {
-        cityCollection.sort(new CityComparator());
+        cityCollection.sort(new CityPopulationComparator());
     }
 
     @Override
@@ -169,7 +170,7 @@ public class CityCollectionManager implements CollectionManager{
             addElement();
         }
         else {
-            City maxCity = Collections.max(cityCollection, new CityComparator());
+            City maxCity = Collections.max(cityCollection, new CityPopulationComparator());
             City city;
             try {
                 city = ioManager.readCity();
@@ -191,5 +192,42 @@ public class CityCollectionManager implements CollectionManager{
         }
     }
 
-    
+    @Override
+    public void minByCreationDate() {
+        if(cityCollection.size() == 0){
+            ioManager.println("Коллекция пуста");
+        }
+        else{
+            ioManager.println(Collections.min(cityCollection, new CityCreationDateComparator()).toString());
+        }
+    }
+
+    @Override
+    public void filterGreaterThanSeaLevel(String metersAboveSeaLevel) {
+        try {
+            filterGreaterThanSeaLevel(Long.parseLong(metersAboveSeaLevel));
+        }
+        catch (NumberFormatException e){
+            ioManager.printErr("Введено не целое число");
+        }
+    }
+
+    public void filterGreaterThanSeaLevel(long metersAboveSeaLevel) {
+        if (cityCollection.size() == 0){
+            ioManager.println("Коллекция пуста");
+        }
+        else {
+            boolean shown = false;
+            for (City city: cityCollection){
+                if (city.getMetersAboveSeaLevel() > metersAboveSeaLevel){
+                    ioManager.println(city.toString());
+                    shown = true;
+                }
+            }
+
+            if (!shown){
+                ioManager.println("В коллекции нет элементов со значением поля metersAboveSeaLevel больше заданного");
+            }
+        }
+    }
 }
