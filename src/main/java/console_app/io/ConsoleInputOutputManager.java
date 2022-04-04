@@ -50,6 +50,9 @@ public class ConsoleInputOutputManager implements InputOutputManager{
                 printErr("нет доступа к файлу");
             }
         }
+        else {
+            printErr("Рекурсивный запуск скрипта");
+        }
     }
 
     @Override

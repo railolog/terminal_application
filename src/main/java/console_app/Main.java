@@ -42,7 +42,7 @@ public class Main {
         System.out.println(8);
 
         ArrayList<City> json = new ArrayList<>();
-        try {
+        /*try {
             json = new FileManager().load("data.json");
             collectionManager.setCollection(json);
         }
@@ -52,7 +52,7 @@ public class Main {
 
         for (City city: json){
             System.out.println(city);
-        }
+        }*/
 
         commandManager.consoleMode();
     }
