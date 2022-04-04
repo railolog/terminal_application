@@ -38,19 +38,13 @@ public class Main {
         commandManager.addCommand("shuffle", new ShuffleCommand(collectionManager));
         commandManager.addCommand("update", new UpdateCommand(collectionManager));
 
-        ArrayList<City> list = new ArrayList<>();
-
-        list.add(new City("Moscow", new Coordinates(1, 2), new Double("5"),
-                new Integer("2"), new Long("12"), true, 7,
-                null, new Human(new Double("13"))));
-
         Gson gson = new Gson();
-        //new FileManager().save(list);
         System.out.println(8);
 
         ArrayList<City> json = new ArrayList<>();
         try {
             json = new FileManager().load("data.json");
+            collectionManager.setCollection(json);
         }
         catch (FileNotFoundException e){
             System.out.println(e.getMessage());

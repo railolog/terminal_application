@@ -22,8 +22,8 @@ import java.util.Scanner;
 public class FileManager {
     FileOutputStream fileOutputStream;
 
-    public void save(ArrayList<City> collection) throws IOException {
-        this.fileOutputStream = new FileOutputStream("save.json", false);
+    public void save(ArrayList<City> collection, String path) throws IOException {
+        this.fileOutputStream = new FileOutputStream(path, false);
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()

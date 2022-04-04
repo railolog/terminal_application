@@ -48,6 +48,7 @@ public class CommandManager {
         while (isRunning){
             CommandWrapper cmdPair = ioManager.readCommand();
             try {
+                System.out.println(cmdPair.getCommand() + ";;;" + cmdPair.getArgument());
                 execute(cmdPair.getCommand(), cmdPair.getArgument());
             }
             catch (IllegalStateException e){

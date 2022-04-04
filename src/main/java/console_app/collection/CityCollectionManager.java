@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
-public class CityCollectionManager implements CollectionManager{
+public class CityCollectionManager implements CollectionManager<City>{
     Date creationDate;
     InputOutputManager ioManager;
     ArrayList<City> cityCollection = new ArrayList<>();
@@ -40,6 +40,23 @@ public class CityCollectionManager implements CollectionManager{
             collectionIdSet.add(id);
             return id;
         }
+    }
+
+    @Override
+    public void setCollection(ArrayList<City> collection) {
+        collectionIdSet.clear();
+        cityCollection.clear();
+
+        for (City city: collection){
+            if (collectionIdSet.contains(city.getId())){
+                ioManager.printErr("Элемент с id " + city.getId() + " уже есть в коллекции, текущий будет пропущен");
+            }
+            else {
+                collectionIdSet.add(city.getId());
+                cityCollection.add(city);
+            }
+        }
+        ioManager.println("Файл считан");
     }
 
     @Override
@@ -208,6 +225,7 @@ public class CityCollectionManager implements CollectionManager{
     @Override
     public void filterGreaterThanSeaLevel(String metersAboveSeaLevel) {
         try {
+            System.out.println(metersAboveSeaLevel);
             filterGreaterThanSeaLevel(Long.parseLong(metersAboveSeaLevel));
         }
         catch (NumberFormatException e){
@@ -222,7 +240,7 @@ public class CityCollectionManager implements CollectionManager{
         else {
             boolean shown = false;
             for (City city: cityCollection){
-                if (city.getMetersAboveSeaLevel() > metersAboveSeaLevel){
+                if (city.getMetersAboveSeaLevel() != null && city.getMetersAboveSeaLevel() > metersAboveSeaLevel){
                     ioManager.println(city.toString());
                     shown = true;
                 }
@@ -235,9 +253,13 @@ public class CityCollectionManager implements CollectionManager{
     }
 
     @Override
-    public void save() {
+    public void save(String path) {
         try {
-            fileManager.save(cityCollection);
+            fileManager.save(cityCollection, path);
+            ioManager.println("Коллекция сохранена в файл " + path);
+        }
+        catch (NullPointerException e){
+            ioManager.printErr("Не введено имя файла");
         }
         catch (IOException e){
             ioManager.printErr("не удалось сохранить коллекцию в файл\n" + e.getMessage());

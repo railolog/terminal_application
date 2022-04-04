@@ -1,5 +1,7 @@
 package console_app.collection;
 
+import java.util.ArrayList;
+
 /**
  * Класс управляющий коллекцией
  * @author railolog
@@ -7,6 +9,8 @@ package console_app.collection;
  */
 public interface CollectionManager<T> {
     long createUniqueId();
+
+    void setCollection(ArrayList<T> collection);
 
     void showCollectionInfo();
 
@@ -36,5 +40,5 @@ public interface CollectionManager<T> {
 
     void sort();
 
-    void save();
+    void save(String path);
 }

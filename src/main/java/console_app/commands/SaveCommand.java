@@ -11,6 +11,6 @@ public class SaveCommand implements Command{
 
     @Override
     public void execute(String arg) {
-        collectionManager.save();
+        collectionManager.save(arg);
     }
 }
