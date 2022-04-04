@@ -12,6 +12,15 @@ public class CommandManager {
     InputOutputManager ioManager;
     FileManager fileManager;
 
+    public CommandManager(InputOutputManager io, FileManager fm){
+        ioManager = io;
+        fileManager = fm;
+
+        addCommand("help", new HelpCommand());
+        addCommand("exit", new ExitCommand());
+        addCommand("execute_script", new ExecuteScriptCommand());
+    }
+
     public class HelpCommand implements Command{
         @Override
         public void execute(String arg) {
@@ -35,12 +44,16 @@ public class CommandManager {
         }
     }
 
-    public CommandManager(InputOutputManager io, FileManager fm){
-        ioManager = io;
-        fileManager = fm;
+    public class ExecuteScriptCommand implements Command{
+        @Override
+        public void execute(String arg) {
+            executeScript(arg);
+        }
 
-        addCommand("help", new HelpCommand());
-        addCommand("exit", new ExitCommand());
+        @Override
+        public String toString() {
+            return "считать и исполнить скрипт из указанного файла";
+        }
     }
 
     public void consoleMode(){
@@ -48,7 +61,7 @@ public class CommandManager {
         while (isRunning){
             CommandWrapper cmdPair = ioManager.readCommand();
             try {
-                System.out.println(cmdPair.getCommand() + ";;;" + cmdPair.getArgument());
+                //System.out.println(cmdPair.getCommand() + ";;;" + cmdPair.getArgument());
                 execute(cmdPair.getCommand(), cmdPair.getArgument());
             }
             catch (IllegalStateException e){
@@ -67,6 +80,15 @@ public class CommandManager {
             throw new IllegalStateException("no such command as: " + commandName);
         }
         command.execute(arg);
+    }
+
+    private void executeScript(String path){
+        if (path == null || path.length() == 0){
+            ioManager.printErr("Не введен путь к файлу");
+            return;
+        }
+
+        ioManager.setFileInput(path);
     }
 
     public String getHelp(){

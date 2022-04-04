@@ -7,12 +7,17 @@ import console_app.core.Government;
 import console_app.core.Human;
 import console_app.exceptions.HumanException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class ConsoleInputOutputManager implements InputOutputManager{
     Scanner sc;
     boolean fileMode = false;
+    Stack<String> fileNamesStack = new Stack<>();
 
     public ConsoleInputOutputManager(Scanner sc){
         this.sc = sc;
@@ -23,7 +28,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         String cmd = "";
 
         while(cmd.length() == 0) {
-            cmd = sc.nextLine().trim();
+            cmd = readLine();
         }
 
         if (cmd.contains(" ")){
@@ -35,9 +40,36 @@ public class ConsoleInputOutputManager implements InputOutputManager{
     }
 
     @Override
+    public void setFileInput(String path) {
+        if (fileNamesStack.empty() || fileNamesStack.search(path) == -1){
+            try {
+                setScanner(new File(path));
+                fileNamesStack.push(path);
+            }
+            catch (FileNotFoundException e){
+                printErr("нет доступа к файлу");
+            }
+        }
+    }
+
+    @Override
+    public void setScanner(File source) throws FileNotFoundException {
+        sc = new Scanner(source);
+    }
+
+    @Override
+    public void setScanner(InputStream source) {
+        sc = new Scanner(source);
+    }
+
+    @Override
     public void println(String line) {
         print(line);
         print("\n");
+    }
+
+    public void printlnForce(String line){
+        System.out.println(line);
     }
 
     @Override
@@ -54,7 +86,31 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
     @Override
     public String readLine() {
+        if (!sc.hasNext()){
+            setPreviousScanner();
+        }
+
         return sc.nextLine().trim();
+    }
+
+    @Override
+    public void setPreviousScanner() {
+        printlnForce("Переход к предыдущему источнику ввода");
+
+        fileNamesStack.pop();
+        System.out.println(fileNamesStack.empty());
+        if (fileNamesStack.empty()){
+            setScanner(System.in);
+        }
+        else {
+            try {
+                setScanner(new File(fileNamesStack.peek()));
+            }
+            catch (FileNotFoundException e){
+                printErr("Нет доступа к предыдущему файлу");
+                setPreviousScanner();
+            }
+        }
     }
 
     @Override
