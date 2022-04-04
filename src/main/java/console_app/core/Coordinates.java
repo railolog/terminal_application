@@ -11,6 +11,11 @@ public class Coordinates {
         setY(y);
     }
 
+    public Coordinates(int x, int y) {
+        setX(new Float(x));
+        setY(new Float(y));
+    }
+
     public void setX(Float x) throws HumanHeightException {
         if (x > 98){
             throw new HumanHeightException("Некорректный ввод: максимальное значения поля x: 98");

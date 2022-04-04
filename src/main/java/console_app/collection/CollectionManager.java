@@ -35,4 +35,6 @@ public interface CollectionManager<T> {
     void filterGreaterThanSeaLevel(String metersAboveSeaLevel);
 
     void sort();
+
+    void save();
 }

@@ -23,11 +23,24 @@ public class CommandManager {
         }
     }
 
+    public class ExitCommand implements Command{
+        @Override
+        public void execute(String arg) {
+            isRunning = false;
+        }
+
+        @Override
+        public String toString() {
+            return "завершить программу (без сохранения в файл)";
+        }
+    }
+
     public CommandManager(InputOutputManager io, FileManager fm){
         ioManager = io;
         fileManager = fm;
 
         addCommand("help", new HelpCommand());
+        addCommand("exit", new ExitCommand());
     }
 
     public void consoleMode(){

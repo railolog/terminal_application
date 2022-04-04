@@ -5,8 +5,10 @@ import console_app.core.CityCreationDateComparator;
 import console_app.core.CityPopulationComparator;
 import console_app.exceptions.CityInteractionException;
 import console_app.exceptions.CityNotExistsException;
+import console_app.io.FileManager;
 import console_app.io.InputOutputManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -17,6 +19,7 @@ public class CityCollectionManager implements CollectionManager{
     InputOutputManager ioManager;
     ArrayList<City> cityCollection = new ArrayList<>();
     HashSet<Long> collectionIdSet = new HashSet<>();
+    FileManager fileManager = new FileManager();
 
     public CityCollectionManager(InputOutputManager ioManager){
         creationDate = new Date();
@@ -228,6 +231,16 @@ public class CityCollectionManager implements CollectionManager{
             if (!shown){
                 ioManager.println("В коллекции нет элементов со значением поля metersAboveSeaLevel больше заданного");
             }
+        }
+    }
+
+    @Override
+    public void save() {
+        try {
+            fileManager.save(cityCollection);
+        }
+        catch (IOException e){
+            ioManager.printErr("не удалось сохранить коллекцию в файл\n" + e.getMessage());
         }
     }
 }

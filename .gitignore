@@ -2,3 +2,8 @@
 out
 *txt
 .idea
+*json
+*iml
+target
+src/test
+dependencies

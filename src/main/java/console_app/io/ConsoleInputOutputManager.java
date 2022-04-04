@@ -28,7 +28,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
         if (cmd.contains(" ")){
             String[] arr = cmd.split(" ", 2);
-            return new CommandWrapper(arr[0], arr[1].trim());
+            return new CommandWrapper(arr[0].trim(), arr[1].trim());
         }
 
         return new CommandWrapper(cmd);
@@ -85,7 +85,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
     private Coordinates readCoordinates(){
         print("Введите координаты(может быть десятичной дробью) через пробел: ");
-        String[] xy = readLine().replaceAll(",", ".").split("\s+");
+        String[] xy = readLine().replaceAll(",", ".").split(" ");
 
         if (xy.length != 2){
             printErr("введено неверное кол-во чисел, предполагаемое кол-во - 2");
@@ -137,7 +137,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         }
 
         if (pop <= 0){
-            printErr("вы ввели значение меньше нуля");
+            printErr("вы ввели значение не больше нуля");
             return fileMode ? null : readPopulation();
         }
         return pop;
