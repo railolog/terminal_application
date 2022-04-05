@@ -6,25 +6,73 @@ import console_app.core.City;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 public interface InputOutputManager {
-    public CommandWrapper readCommand();
+    /**
+     * Считывает команду
+     * @return команда
+     */
+    CommandWrapper readCommand();
 
-    public void println(String line);
+    /**
+     * Осуществляет вывод с переносом строки.
+     * Не работоает в файловом режиме
+     * @param line строка, которую надо вывести
+     */
+    void println(String line);
 
+    /**
+     * Осуществляет вывод с переносом строки несмотря на режим
+     * @param line строка, которую надо вывести
+     */
+    void printlnForce(String line);
+
+    /**
+     * Осуществляет вывод с переносом строки.
+     * Не работоает в файловом режиме
+     * @param line строка, которую надо вывести
+     */
     void print(String line);
 
+    /**
+     * Осуществляет вывод ошибок
+     * @param e текст ошибки
+     */
     void printErr(String e);
 
+    /**
+     * Читает строку из входного потока
+     * @return строка
+     */
     String readLine();
 
+    /**
+     * Осуществляет чтение парметров Города
+     * @return город
+     */
     City readCity();
 
+    /**
+     * Устанавливает входной поток
+     * @param path путь до файла
+     */
     void setFileInput(String path);
 
-    void setScanner(File source) throws FileNotFoundException;
+    /**
+     * Устанавливает входной поток
+     * @param source поток ввода
+     */
+    void setScanner(Scanner source);
 
+    /**
+     * Устанавливает входной поток
+     * @param source поток ввода
+     */
     void setScanner(InputStream source);
 
+    /**
+     * Возвращается к предыдущему потоку ввода
+     */
     void setPreviousScanner();
 }

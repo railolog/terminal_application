@@ -3,7 +3,7 @@ package console_app.commands;
 import console_app.collection.CollectionManager;
 
 public class SaveCommand implements Command{
-    CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public SaveCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
@@ -12,5 +12,10 @@ public class SaveCommand implements Command{
     @Override
     public void execute(String arg) {
         collectionManager.save(arg);
+    }
+
+    @Override
+    public String toString() {
+        return "сохранить коллекцию в файл";
     }
 }

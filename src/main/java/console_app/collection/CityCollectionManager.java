@@ -15,11 +15,28 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class CityCollectionManager implements CollectionManager<City>{
-    Date creationDate;
-    InputOutputManager ioManager;
-    ArrayList<City> cityCollection = new ArrayList<>();
-    HashSet<Long> collectionIdSet = new HashSet<>();
-    FileManager fileManager = new FileManager();
+    /** Дата создания */
+    private Date creationDate;
+
+    /**
+     * Класс осуществляющий ввод-вывод
+     */
+    private InputOutputManager ioManager;
+
+    /**
+     * Коллекция, которой управляет класс
+     */
+    private ArrayList<City> cityCollection = new ArrayList<>();
+
+    /**
+     * id хранимых элементов
+     */
+    private HashSet<Long> collectionIdSet = new HashSet<>();
+
+    /**
+     * Класс, осуществляющий сохранение и загрузку коллекции
+     */
+    private FileManager fileManager = new FileManager();
 
     public CityCollectionManager(InputOutputManager ioManager){
         creationDate = new Date();
@@ -56,7 +73,7 @@ public class CityCollectionManager implements CollectionManager<City>{
                 cityCollection.add(city);
             }
         }
-        ioManager.println("Файл считан");
+        ioManager.printlnForce("Файл считан");
     }
 
     @Override
@@ -71,8 +88,8 @@ public class CityCollectionManager implements CollectionManager<City>{
 
     @Override
     public void showCollectionInfo() {
-        ioManager.println("ArrayList of Cities\nCreation Date: " + creationDate);
-        ioManager.println("Number of elements: " + cityCollection.size());
+        ioManager.printlnForce("ArrayList of Cities\nCreation Date: " + creationDate);
+        ioManager.printlnForce("Number of elements: " + cityCollection.size());
     }
 
     @Override
@@ -87,7 +104,7 @@ public class CityCollectionManager implements CollectionManager<City>{
         }
         city.setId(createUniqueId());
         cityCollection.add(city);
-        ioManager.println("Элемент успешно добавлен");
+        ioManager.printlnForce("Элемент успешно добавлен");
         sort();
     }
 
@@ -115,6 +132,7 @@ public class CityCollectionManager implements CollectionManager<City>{
 
         newCity.setId(id);
         cityCollection.set(cityIndex, newCity);
+        ioManager.printlnForce("Элемент успешно обновлён");
     }
 
     @Override
@@ -135,13 +153,17 @@ public class CityCollectionManager implements CollectionManager<City>{
     @Override
     public void printElements() {
         if (cityCollection.isEmpty()){
-            ioManager.println("Коллекция пуста");
+            ioManager.printlnForce("Коллекция пуста");
         }
         else{
-            cityCollection.forEach(city -> ioManager.println(city.toString()));
+            cityCollection.forEach(city -> ioManager.printlnForce(city.toString()));
         }
     }
 
+    /**
+     * Удаляет элемент коллекции
+     * @param id id удаляемого элемента
+     */
     public void removeById(long id){
         int index;
 
@@ -155,7 +177,7 @@ public class CityCollectionManager implements CollectionManager<City>{
 
         cityCollection.remove(index);
 
-        ioManager.println("Элемент успешно удалён");
+        ioManager.printlnForce("Элемент успешно удалён");
     }
 
     @Override
@@ -171,7 +193,7 @@ public class CityCollectionManager implements CollectionManager<City>{
     @Override
     public void clearCollection() {
         cityCollection.clear();
-        ioManager.println("Коллекция успешно очищена");
+        ioManager.printlnForce("Коллекция успешно очищена");
     }
 
     @Override
@@ -203,11 +225,11 @@ public class CityCollectionManager implements CollectionManager<City>{
             if (city.compareTo(maxCity) > 0){
                 city.setId(createUniqueId());
                 cityCollection.add(city);
-                ioManager.println("Элемент успешно добавлен");
+                ioManager.printlnForce("Элемент успешно добавлен");
                 sort();
             }
             else {
-                ioManager.println("Элемент не больше максимального элемента коллекции");
+                ioManager.printlnForce("Элемент не больше максимального элемента коллекции");
             }
         }
     }
@@ -215,17 +237,16 @@ public class CityCollectionManager implements CollectionManager<City>{
     @Override
     public void minByCreationDate() {
         if(cityCollection.size() == 0){
-            ioManager.println("Коллекция пуста");
+            ioManager.printlnForce("Коллекция пуста");
         }
         else{
-            ioManager.println(Collections.min(cityCollection, new CityCreationDateComparator()).toString());
+            ioManager.printlnForce(Collections.min(cityCollection, new CityCreationDateComparator()).toString());
         }
     }
 
     @Override
     public void filterGreaterThanSeaLevel(String metersAboveSeaLevel) {
         try {
-            System.out.println(metersAboveSeaLevel);
             filterGreaterThanSeaLevel(Long.parseLong(metersAboveSeaLevel));
         }
         catch (NumberFormatException e){
@@ -233,21 +254,44 @@ public class CityCollectionManager implements CollectionManager<City>{
         }
     }
 
+    /**
+     * Выводит элементы, значение поля которых, превышает данное
+     * @param metersAboveSeaLevel сравниваемое значение
+     * @see console_app.core.City#metersAboveSeaLevel
+     */
     public void filterGreaterThanSeaLevel(long metersAboveSeaLevel) {
         if (cityCollection.size() == 0){
-            ioManager.println("Коллекция пуста");
+            ioManager.printlnForce("Коллекция пуста");
         }
         else {
             boolean shown = false;
             for (City city: cityCollection){
                 if (city.getMetersAboveSeaLevel() != null && city.getMetersAboveSeaLevel() > metersAboveSeaLevel){
-                    ioManager.println(city.toString());
+                    ioManager.printlnForce(city.toString());
                     shown = true;
                 }
             }
 
             if (!shown){
-                ioManager.println("В коллекции нет элементов со значением поля metersAboveSeaLevel больше заданного");
+                ioManager.printlnForce("В коллекции нет элементов со значением поля metersAboveSeaLevel больше заданного");
+            }
+        }
+    }
+
+    @Override
+    public void groupCountingByCoordinates() {
+        int[] groups = new int[]{0, 0, 0, 0};
+
+        if (cityCollection.size() == 0){
+            ioManager.printlnForce("Коллекция пуста");
+        }
+        else {
+            for (City city: cityCollection){
+                groups[city.getCoordinates().getQuarter() - 1]++;
+            }
+            ioManager.printlnForce("Распределение городов по четвертям:");
+            for (int i = 0; i < groups.length; i++){
+                ioManager.printlnForce((i + 1) + ": " + groups[i]);
             }
         }
     }
@@ -256,7 +300,7 @@ public class CityCollectionManager implements CollectionManager<City>{
     public void save(String path) {
         try {
             fileManager.save(cityCollection, path);
-            ioManager.println("Коллекция сохранена в файл " + path);
+            ioManager.printlnForce("Коллекция сохранена в файл " + path);
         }
         catch (NullPointerException e){
             ioManager.printErr("Не введено имя файла");

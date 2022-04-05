@@ -1,5 +1,6 @@
 package console_app.core;
 
+import console_app.exceptions.CoordinatesException;
 import console_app.exceptions.HumanHeightException;
 
 public class Coordinates {
@@ -16,18 +17,37 @@ public class Coordinates {
         setY(new Float(y));
     }
 
-    public void setX(Float x) throws HumanHeightException {
+    public void setX(Float x) throws CoordinatesException {
+        if (x == null){
+            throw new CoordinatesException("Значение не может быть null");
+        }
         if (x > 98){
-            throw new HumanHeightException("Некорректный ввод: максимальное значения поля x: 98");
+            throw new CoordinatesException("Некорректный ввод: максимальное значения поля x: 98");
         }
         this.x = x;
     }
 
-    public void setY(Float y) throws HumanHeightException {
+    public void setY(Float y) throws CoordinatesException {
+        if (x == null){
+            throw new CoordinatesException("Значение не может быть null");
+        }
         if (y > 761){
-            throw new HumanHeightException("Некорректный ввод: максимальное значения поля y: 761");
+            throw new CoordinatesException("Некорректный ввод: максимальное значения поля y: 761");
         }
         this.y = y;
+    }
+
+    public int getQuarter(){
+        if (x >= 0 && y >= 0){
+            return 1;
+        }
+        if (x <= 0 && y >= 0){
+            return 2;
+        }
+        if (x <= 0 && y <= 0){
+            return 3;
+        }
+        return 4;
     }
 
     @Override

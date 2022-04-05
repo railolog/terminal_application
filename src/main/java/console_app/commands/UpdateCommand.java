@@ -3,7 +3,7 @@ package console_app.commands;
 import console_app.collection.CollectionManager;
 
 public class UpdateCommand implements Command{
-    CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public UpdateCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;

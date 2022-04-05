@@ -1,21 +1,13 @@
 package console_app;
 
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonParseException;
 import console_app.collection.CityCollectionManager;
 import console_app.commands.*;
-import console_app.core.City;
-import console_app.core.Coordinates;
-import console_app.core.Government;
-import console_app.core.Human;
 import console_app.io.ConsoleInputOutputManager;
 import console_app.io.FileManager;
 import console_app.io.InputOutputManager;
 
 import java.io.FileNotFoundException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -29,6 +21,7 @@ public class Main {
         commandManager.addCommand("add_if_max", new AddIfMaxCommand(collectionManager));
         commandManager.addCommand("clear", new ClearCommand(collectionManager));
         commandManager.addCommand("filter_greater_than_meters_above_sea_level", new FilterGreaterThanSeaLevel(collectionManager));
+        commandManager.addCommand("group_counting_by_coordinates", new GroupCountingCommand(collectionManager));
         commandManager.addCommand("info", new InfoCommand(collectionManager));
         commandManager.addCommand("min_by_creation_date", new MinByCreationDateCommand(collectionManager));
         commandManager.addCommand("remove_by_id", new RemoveByIdCommand(collectionManager));
@@ -38,22 +31,20 @@ public class Main {
         commandManager.addCommand("shuffle", new ShuffleCommand(collectionManager));
         commandManager.addCommand("update", new UpdateCommand(collectionManager));
 
-        Gson gson = new Gson();
-        System.out.println(8);
+        if (args.length > 0){
+            String path = args[0].trim();
 
-        ArrayList<City> json = new ArrayList<>();
-        /*try {
-            json = new FileManager().load("data.json");
-            collectionManager.setCollection(json);
+            try {
+                collectionManager.setCollection(new FileManager().load(path));
+            }
+            catch (FileNotFoundException | NullPointerException | JsonParseException e){
+                ioManager.printErr(e.getMessage() + "\nИдет создание коллекции по умолчанию");
+            }
         }
-        catch (FileNotFoundException e){
-            System.out.println(e.getMessage());
+        else {
+            ioManager.printErr("не передан путь к файлу, загружается коллекция по умолчанию");
         }
 
-        for (City city: json){
-            System.out.println(city);
-        }*/
-
-        commandManager.consoleMode();
+        commandManager.work();
     }
 }

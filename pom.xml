@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>lab5</artifactId>
-    <version>0.8 beta</version>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
@@ -33,6 +33,15 @@
                             src/main/resources/META-INF/MANIFEST.MF
                         </manifestFile>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <show>private</show>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                 </configuration>
             </plugin>
         </plugins>

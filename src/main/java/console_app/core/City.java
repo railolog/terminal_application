@@ -1,21 +1,66 @@
 package console_app.core;
 
 import console_app.exceptions.CityInteractionException;
-import console_app.exceptions.EmptyFieldException;
 
 import java.time.ZonedDateTime;
 
+/**
+ * Класс города
+ */
 public class City implements Comparable<City>{
+    /**
+     * Уникальный id
+     */
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+
+    /**
+     * Название города
+     */
     private String name; //Поле не может быть null, Строка не может быть пустой
+
+    /**
+     * Координаты
+     */
     private Coordinates coordinates; //Поле не может быть null
+
+    /**
+     * Дата создания элемента*
+     */
     private ZonedDateTime creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
+
+    /**
+     * Площадь города
+     */
     private Double area; //Значение поля должно быть больше 0, Поле не может быть null
+
+    /**
+     * Население города
+     */
     private Integer population; //Значение поля должно быть больше 0, Поле не может быть null
+
+    /**
+     * Высота над уровнем города
+     */
     private Long metersAboveSeaLevel;
+
+    /**
+     * Поле, показывающее, является ли столицей город
+     */
     private boolean capital;
+
+    /**
+     * Телефонный код
+     */
     private int telephoneCode; //Значение поля должно быть больше 0, Максимальное значение поля: 100000
+
+    /**
+     * Тип правления
+     */
     private Government government; //Поле может быть null
+
+    /**
+     * Правитель города
+     */
     private Human governor; //Поле может быть null
 
     public City(String name,
@@ -59,6 +104,11 @@ public class City implements Comparable<City>{
             throw new CityInteractionException("Поле Coordinates не может быть null");
         }
         this.coordinates = coords;
+    }
+
+
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
     public void setArea(Double area) {
@@ -120,17 +170,17 @@ public class City implements Comparable<City>{
     @Override
     public String toString(){
         return "City{" +
-                "id=" + id +
-                ", name='" + name + "'" +
-                ", coordinate=" + coordinates +
-                ", creation_date=" + creationDate +
-                ", area=" + area +
-                ", population=" + population +
-                ", meters_above_sea_level=" + metersAboveSeaLevel +
-                ", is_capital=" + capital +
-                ", telephone_code=" + telephoneCode +
-                ", government=" + government +
-                ", governor=" + governor +
-                "}";
+                "\nid=" + id +
+                ", \nname='" + name + "'" +
+                ", \ncoordinate=" + coordinates +
+                ", \ncreation_date=" + creationDate +
+                ", \narea=" + area +
+                ", \npopulation=" + population +
+                ", \nmeters_above_sea_level=" + metersAboveSeaLevel +
+                ", \nis_capital=" + capital +
+                ", \ntelephone_code=" + telephoneCode +
+                ", \ngovernment=" + government +
+                ", \ngovernor=" + governor +
+                "\n}";
     }
 }

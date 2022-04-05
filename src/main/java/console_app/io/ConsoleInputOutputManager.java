@@ -11,16 +11,32 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Stack;
 
 public class ConsoleInputOutputManager implements InputOutputManager{
-    Scanner sc;
-    boolean fileMode = false;
-    Stack<String> fileNamesStack = new Stack<>();
+    private Scanner sc;
+
+    /**
+     * true - чтение из файла\n
+     * false - чтение из консоли
+     */
+    private boolean fileMode = false;
+
+    /**
+     * Стэк читаемых файлов
+     */
+    private Stack<String> fileNamesStack = new Stack<>();
+
+    /**
+     * Стэк потоков ввода
+     */
+    private Stack<Scanner> scannersStack = new Stack<>();
 
     public ConsoleInputOutputManager(Scanner sc){
         this.sc = sc;
+        sc.useDelimiter("\n");
     }
 
     @Override
@@ -43,8 +59,11 @@ public class ConsoleInputOutputManager implements InputOutputManager{
     public void setFileInput(String path) {
         if (fileNamesStack.empty() || fileNamesStack.search(path) == -1){
             try {
-                setScanner(new File(path));
+                Scanner newScanner = new Scanner(new File(path));
+                setScanner(newScanner);
                 fileNamesStack.push(path);
+                scannersStack.push(newScanner);
+                fileMode = true;
             }
             catch (FileNotFoundException e){
                 printErr("нет доступа к файлу");
@@ -56,8 +75,8 @@ public class ConsoleInputOutputManager implements InputOutputManager{
     }
 
     @Override
-    public void setScanner(File source) throws FileNotFoundException {
-        sc = new Scanner(source);
+    public void setScanner(Scanner source){
+        sc = source;
     }
 
     @Override
@@ -89,11 +108,13 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
     @Override
     public String readLine() {
-        if (!sc.hasNext()){
-            setPreviousScanner();
+        try {
+            return sc.nextLine().trim();
         }
-
-        return sc.nextLine().trim();
+        catch (NoSuchElementException e){
+            setPreviousScanner();
+            return readLine();
+        }
     }
 
     @Override
@@ -101,18 +122,14 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         printlnForce("Переход к предыдущему источнику ввода");
 
         fileNamesStack.pop();
-        System.out.println(fileNamesStack.empty());
+        scannersStack.pop();
+
         if (fileNamesStack.empty()){
             setScanner(System.in);
+            fileMode = false;
         }
         else {
-            try {
-                setScanner(new File(fileNamesStack.peek()));
-            }
-            catch (FileNotFoundException e){
-                printErr("Нет доступа к предыдущему файлу");
-                setPreviousScanner();
-            }
+            setScanner(scannersStack.peek());
         }
     }
 
@@ -144,7 +161,8 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
     private Coordinates readCoordinates(){
         print("Введите координаты(может быть десятичной дробью) через пробел: ");
-        String[] xy = readLine().replaceAll(",", ".").split(" ");
+        String[] xy = readLine().replaceAll(",", ".").split("\\s+");
+
 
         if (xy.length != 2){
             printErr("введено неверное кол-во чисел, предполагаемое кол-во - 2");
@@ -152,7 +170,7 @@ public class ConsoleInputOutputManager implements InputOutputManager{
         }
 
         try {
-            return new Coordinates(Float.parseFloat(xy[0]), Float.parseFloat(xy[1]));
+            return new Coordinates(Float.parseFloat(xy[0].trim()), Float.parseFloat(xy[1].trim()));
         }
         catch (NumberFormatException e){
             printErr("вероятно, введены не числа");

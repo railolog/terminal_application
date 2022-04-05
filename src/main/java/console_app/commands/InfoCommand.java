@@ -3,7 +3,7 @@ package console_app.commands;
 import console_app.collection.CollectionManager;
 
 public class InfoCommand implements Command{
-    private final CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public InfoCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;

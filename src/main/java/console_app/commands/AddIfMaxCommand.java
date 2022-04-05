@@ -3,7 +3,7 @@ package console_app.commands;
 import console_app.collection.CollectionManager;
 
 public class AddIfMaxCommand implements Command{
-    CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public AddIfMaxCommand(CollectionManager collectionManager){
         this.collectionManager = collectionManager;

@@ -9,8 +9,8 @@ import java.util.Map;
 public class CommandManager {
     private boolean isRunning = false;
     private final HashMap<String, Command> commandMap = new HashMap<>();
-    InputOutputManager ioManager;
-    FileManager fileManager;
+    private InputOutputManager ioManager;
+    private FileManager fileManager;
 
     public CommandManager(InputOutputManager io, FileManager fm){
         ioManager = io;
@@ -56,7 +56,7 @@ public class CommandManager {
         }
     }
 
-    public void consoleMode(){
+    public void work(){
         isRunning = true;
         while (isRunning){
             CommandWrapper cmdPair = ioManager.readCommand();

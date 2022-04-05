@@ -5,10 +5,6 @@ import console_app.exceptions.HumanHeightException;
 public class Human {
     private Double height;
 
-    public Human(){
-
-    }
-
     public Human(Double height){
         setHeight(height);
     }
