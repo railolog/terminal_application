@@ -37,6 +37,10 @@ public class Coordinates {
         this.y = y;
     }
 
+    /**
+     * Определяет четверть координатной плоскости
+     * @return номер четверти
+     */
     public int getQuarter(){
         if (x >= 0 && y >= 0){
             return 1;

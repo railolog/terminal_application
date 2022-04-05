@@ -20,6 +20,12 @@ import java.util.Scanner;
 public class FileManager {
     private FileOutputStream fileOutputStream;
 
+    /**
+     * Сериализует коллекцию и сохраняет
+     * @param collection коллекция для сохранения
+     * @param path путь до файла
+     * @throws IOException
+     */
     public void save(ArrayList<City> collection, String path) throws IOException {
         this.fileOutputStream = new FileOutputStream(path, false);
 
@@ -34,6 +40,12 @@ public class FileManager {
         fileOutputStream.write(buffer);
     }
 
+    /**
+     * Загружает и десериализирует коллекцию
+     * @param path путь до файла
+     * @return готовую коллекцию
+     * @throws FileNotFoundException
+     */
     public ArrayList<City> load(String path) throws FileNotFoundException{
         Scanner sc = new Scanner(new File(path));
         StringBuilder res = new StringBuilder();

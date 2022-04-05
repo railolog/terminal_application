@@ -2,7 +2,6 @@ package console_app.collection;
 
 import console_app.core.City;
 import console_app.core.CityCreationDateComparator;
-import console_app.core.CityPopulationComparator;
 import console_app.exceptions.CityInteractionException;
 import console_app.exceptions.CityNotExistsException;
 import console_app.io.FileManager;
@@ -147,7 +146,7 @@ public class CityCollectionManager implements CollectionManager<City>{
 
     @Override
     public void sort() {
-        cityCollection.sort(new CityPopulationComparator());
+        Collections.sort(cityCollection);
     }
 
     @Override
@@ -212,7 +211,7 @@ public class CityCollectionManager implements CollectionManager<City>{
             addElement();
         }
         else {
-            City maxCity = Collections.max(cityCollection, new CityPopulationComparator());
+            City maxCity = Collections.max(cityCollection);
             City city;
             try {
                 city = ioManager.readCity();

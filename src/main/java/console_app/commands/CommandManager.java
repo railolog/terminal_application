@@ -3,6 +3,7 @@ package console_app.commands;
 import console_app.io.FileManager;
 import console_app.io.InputOutputManager;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,9 +60,17 @@ public class CommandManager {
     public void work(){
         isRunning = true;
         while (isRunning){
-            CommandWrapper cmdPair = ioManager.readCommand();
+            CommandWrapper cmdPair;
             try {
-                //System.out.println(cmdPair.getCommand() + ";;;" + cmdPair.getArgument());
+                cmdPair = ioManager.readCommand();
+            }
+            catch (EmptyStackException e){
+                ioManager.printErr("EOF\nexiting...");
+                isRunning = false;
+                break;
+            }
+
+            try {
                 execute(cmdPair.getCommand(), cmdPair.getArgument());
             }
             catch (IllegalStateException e){

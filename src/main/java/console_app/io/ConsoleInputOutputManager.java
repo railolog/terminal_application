@@ -10,10 +10,7 @@ import console_app.exceptions.HumanException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 public class ConsoleInputOutputManager implements InputOutputManager{
     private Scanner sc;
