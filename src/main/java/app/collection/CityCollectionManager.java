@@ -308,7 +308,12 @@ public class CityCollectionManager implements CollectionManager<City>{
         }
         catch (IOException e){
             ioManager.printErr("не удалось сохранить коллекцию в файл\n" + e.getMessage());
-            save(ioManager.readPath());
+            String newPath = ioManager.readPath();
+
+            if (newPath.length() == 0){
+                return;
+            }
+            save(newPath);
         }
     }
 }

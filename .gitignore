@@ -2,7 +2,7 @@
 out
 *txt
 .idea
-*json
+*.json
 *iml
 target
 src/test
