@@ -133,14 +133,9 @@ public class ConsoleInputOutputManager implements InputOutputManager{
 
     @Override
     public String readPath() {
-        print("Попробуйте ввести путь до другого файла: ");
-        String line = readLine();
+        print("Попробуйте ввести путь до другого файла (пустую строку чтобы выйти): ");
 
-        if (line.length() == 0){
-            printErr("Введена пустая строка");
-            return readPath();
-        }
-        return line;
+        return readLine();
     }
 
     @Override

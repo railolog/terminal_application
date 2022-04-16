@@ -38,13 +38,13 @@ public class Main {
                 collectionManager.setCollection(new FileManager().load(path));
             }
             catch (FileNotFoundException | NullPointerException | JsonParseException e){
-                ioManager.printErr(e.getMessage() + "\nИдет создание коллекции по умолчанию");
+                ioManager.printErr(e.getMessage() + "\nНе удалось загрузить коллекцию\nЗавершение работы");
+                return;
             }
+            commandManager.work();
         }
         else {
-            ioManager.printErr("не передан путь к файлу, загружается коллекция по умолчанию");
+            ioManager.printErr("не передан путь к файлу\nЗавершение работы");
         }
-
-        commandManager.work();
     }
 }
